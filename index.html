@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Gallery &mdash; Works by Yoneyama Mai</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header"><!-- Header keeps the title area pinned to the top of the page. -->
+    <div class="site-header__inner"><!-- Inner wrapper keeps the header text centered and readable. -->
+      <h1 class="site-title">Interactive Gallery</h1><!-- Main heading that introduces the project. -->
+      <p class="site-tagline">Exploring the luminous illustrations of Yoneyama Mai</p><!-- Short subheading that explains what visitors are looking at. -->
+    </div>
+  </header>
+
+  <main class="site-main"><!-- Main content area that screen readers can jump to immediately. -->
+    <section class="intro" aria-labelledby="intro-heading"><!-- Intro text that tells visitors how the gallery works. -->
+      <div class="intro__inner">
+        <h2 id="intro-heading">Gallery Overview</h2><!-- Section title so assistive tech can label this block. -->
+        <p>
+          Browse twelve vibrant pieces by illustrator Yoneyama Mai. Tap or click any tile to view a high-definition version
+          with supporting details, then click the expanded artwork to return to the gallery.
+        </p><!-- Plain-language explanation of the gallery interaction. -->
+      </div>
+    </section>
+
+    <section class="controls" aria-labelledby="controls-heading"><!-- Section that contains the grid/list toggle buttons. -->
+      <div class="controls__inner">
+        <h2 id="controls-heading">View Options</h2><!-- Heading that tells users these buttons change the layout. -->
+        <p id="layoutStatus" class="controls__status" role="status" aria-live="polite">
+          Grid view enabled
+        </p><!-- Live text that announces layout changes to assistive technology. -->
+        <div id="viewControls" class="controls__buttons" role="group" aria-label="Gallery layout"><!-- Button group container used for event delegation in JS. -->
+          <button type="button" class="controls__button controls__button--active" data-layout="grid" aria-pressed="true">
+            Grid
+          </button><!-- Button that switches to the multi-column grid layout. -->
+          <button type="button" class="controls__button" data-layout="list" aria-pressed="false">
+            List
+          </button><!-- Button that switches everything to a single-column list. -->
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" aria-labelledby="gallery-heading"><!-- Placeholder section where JavaScript injects all the image tiles. -->
+      <div class="gallery__inner">
+        <h2 id="gallery-heading" class="visually-hidden">Artwork Gallery</h2><!-- Hidden heading gives the gallery a proper label for screen readers. -->
+        <div id="gallery" class="gallery__grid" data-layout="grid"></div><!-- Empty grid that the script fills with 12 artwork cards. -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><!-- Footer keeps the artist credit visible on every page. -->
+    <div class="site-footer__inner">
+      <p class="site-footer__credit">
+        Artwork created by <a href="https://x.com/yoneyamai" target="_blank" rel="noopener noreferrer">Yoneyama Mai (米山 舞)</a> and used here for educational purposes.
+      </p><!-- Required credit line with a link to the artist’s social profile. -->
+    </div>
+  </footer>
+
+  <div id="lightbox" class="lightbox" hidden><!-- Full-screen overlay that opens when a thumbnail is selected. -->
+    <div class="lightbox__backdrop" data-action="close"></div><!-- Darkened background; clicking it closes the overlay. -->
+    <figure class="lightbox__figure">
+      <img id="lightboxImage" class="lightbox__image" src="" alt="" draggable="false"><!-- HD image slot that gets populated when an artwork is opened. -->
+      <figcaption id="lightboxCaption" class="lightbox__caption"></figcaption><!-- Text area used to show the artwork title and description. -->
+    </figure>
+  </div>
+
+  <script src="script.js" defer></script><!-- Loads the gallery JavaScript once the HTML is ready. -->
+</body>
+</html>

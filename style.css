@@ -1,0 +1,294 @@
+:root {
+  --page-bg: #0b0d12; /* Dark navy background that makes the artwork pop. */
+  --page-fg: #f4f7ff; /* Light text color so copy is readable on dark surfaces. */
+  --accent: #4f8cff; /* Bright blue used for active buttons and links. */
+  --accent-muted: #3a5cc9; /* Slightly darker blue for button hover and focus. */
+  --panel-bg: rgba(18, 20, 28, 0.75); /* See-through panel color for cards and sections. */
+  --border-soft: rgba(255, 255, 255, 0.12); /* Subtle border color for separating panels. */
+  --shadow-strong: 0 24px 48px rgba(0, 0, 0, 0.45); /* Heavy shadow used behind the lightbox. */
+  --font-body: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Font stack for all copy on the site. */
+  --spacing-xs: 0.75rem; /* Small spacing unit shared across components. */
+  --spacing-sm: 1.5rem; /* Medium spacing unit for padding inside cards. */
+  --spacing-md: 2.5rem; /* Larger spacing unit between major sections. */
+  --width-max: 1100px; /* Maximum readable width for text-heavy sections. */
+}
+
+* {
+  box-sizing: border-box; /* Let width/height include padding so layouts are predictable. */
+}
+
+body {
+  margin: 0; /* Remove browser default margins so custom layout fills the screen. */
+  background: radial-gradient(circle at 20% 20%, #121523, var(--page-bg)); /* Soft spotlight effect behind the gallery. */
+  color: var(--page-fg); /* Set the default body text color. */
+  font-family: var(--font-body); /* Apply the shared font stack to all text. */
+  line-height: 1.6; /* Add breathing room between lines of text. */
+  min-height: 100vh; /* Make sure the footer stays at the bottom on short pages. */
+  display: flex; /* Use flexbox so the content column can stretch. */
+  flex-direction: column; /* Stack header, main, and footer vertically. */
+}
+
+body.is-locked {
+  overflow: hidden; /* Stop background scrolling when the lightbox is open. */
+}
+
+.visually-hidden {
+  position: absolute; /* Keep the element in the DOM but remove it from the visual flow. */
+  width: 1px; /* Give the element a tiny footprint so it stays hidden. */
+  height: 1px; /* Match the tiny width with a tiny height. */
+  padding: 0; /* No padding so the element doesn’t accidentally appear. */
+  margin: -1px; /* Move the element just off the screen. */
+  overflow: hidden; /* Hide any text that might spill out. */
+  clip: rect(0, 0, 0, 0); /* Clip the box so nothing is drawn. */
+  border: 0; /* Remove borders that could reveal the element. */
+}
+
+ .site-header {
+  border-bottom: 1px solid var(--border-soft); /* Thin line that separates the header from the main content. */
+  background: rgba(10, 12, 18, 0.85); /* Slightly transparent background so the header blends with the page. */
+  backdrop-filter: blur(12px); /* Soft blur to give the header a frosted-glass feel. */
+  position: sticky; /* Keep the header visible while scrolling. */
+  top: 0; /* Stick the header to the very top edge of the viewport. */
+  z-index: 20; /* Make sure the header sits above gallery cards. */
+}
+
+.site-header__inner {
+  margin: 0 auto; /* Center the header content within the page width. */
+  max-width: var(--width-max); /* Match the main content width. */
+  padding: var(--spacing-sm) var(--spacing-xs); /* Space around the heading and tagline. */
+}
+
+.site-title {
+  margin: 0; /* Remove default heading margin so spacing is consistent. */
+  font-size: clamp(1.8rem, 3vw, 2.4rem); /* Responsive title size that scales smoothly. */
+}
+
+.site-tagline {
+  margin: 0.25rem 0 0; /* Small gap between the title and tagline. */
+  font-weight: 500; /* Slightly bolder font for readability. */
+  color: rgba(255, 255, 255, 0.65); /* Softer color so it doesn’t compete with the main title. */
+}
+
+.site-main {
+  flex: 1; /* Allow the middle content to grow and push the footer down. */
+}
+
+.intro,
+.controls,
+.gallery {
+  padding: var(--spacing-md) var(--spacing-xs); /* Consistent vertical spacing around key sections. */
+}
+
+.intro__inner,
+.controls__inner,
+.gallery__inner,
+.site-footer__inner {
+  margin: 0 auto; /* Center each content block on the page. */
+  max-width: var(--width-max); /* Keep line length comfortable for reading. */
+  background: var(--panel-bg); /* Semi-transparent card background. */
+  border: 1px solid var(--border-soft); /* Light outline so cards separate from the page background. */
+  border-radius: 18px; /* Rounded corners for a softer look. */
+  padding: var(--spacing-sm); /* Inner padding for breathing room. */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); /* Drop shadow to lift cards off the background. */
+}
+
+.controls__inner {
+  display: grid; /* Use CSS grid so text and buttons align neatly. */
+  gap: var(--spacing-sm); /* Space between the heading, status, and buttons. */
+}
+
+.controls__status {
+  margin: 0; /* Remove extra paragraph spacing. */
+  font-size: 0.95rem; /* Slightly smaller text because it’s supporting information. */
+  color: rgba(255, 255, 255, 0.7); /* Muted color so the heading stays dominant. */
+}
+
+.controls__buttons {
+  display: inline-flex; /* Place the buttons side by side. */
+  gap: 0.75rem; /* Add space so the buttons are easy to tap. */
+}
+
+.controls__button {
+  appearance: none; /* Remove default button styling for a clean slate. */
+  background: rgba(255, 255, 255, 0.08); /* Neutral button background. */
+  border: 1px solid transparent; /* Invisible border that becomes visible on focus. */
+  border-radius: 999px; /* Pill shape to match the overall aesthetic. */
+  color: var(--page-fg); /* Keep button text readable on the dark background. */
+  cursor: pointer; /* Standard pointer cursor to signal interactivity. */
+  font: inherit; /* Reuse the body font for consistency. */
+  padding: 0.6rem 1.4rem; /* Comfortable touch target. */
+  transition: background 180ms ease, transform 180ms ease, border-color 180ms ease; /* Smooth hover and press animations. */
+}
+
+.controls__button:hover,
+.controls__button:focus-visible {
+  background: rgba(255, 255, 255, 0.16); /* Lighten the button on hover or keyboard focus. */
+  outline: none; /* Remove default focus outline in favor of the custom border. */
+  border-color: rgba(255, 255, 255, 0.35); /* Subtle border to show which button is focused. */
+}
+
+.controls__button:active {
+  transform: translateY(1px); /* Tiny movement to mimic a physical button press. */
+}
+
+.controls__button--active {
+  background: var(--accent); /* Highlight the selected layout mode. */
+  border-color: var(--accent-muted); /* Slightly darker border to frame the active button. */
+}
+
+.gallery__grid {
+  display: grid; /* Use CSS grid to create responsive columns. */
+  gap: var(--spacing-sm); /* Even space between cards. */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Automatically fit as many cards per row as the screen allows. */
+  transition: grid-template-columns 220ms ease; /* Smoothly animate between grid and list layouts. */
+}
+
+.gallery__grid[data-layout="list"] {
+  grid-template-columns: minmax(0, 1fr); /* Switch to a single column when list view is active. */
+}
+
+
+.gallery__item {
+  background: rgba(7, 8, 12, 0.8); /* Dark card background that frames each thumbnail. */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Light outline so cards stand apart. */
+  border-radius: 14px; /* Rounded corners to match other panels. */
+  display: flex; /* Stack the thumbnail button above the caption. */
+  flex-direction: column; /* Ensure the caption sits below the image in list view. */
+  overflow: hidden; /* Hide any overflow so rounded corners stay clean. */
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25); /* Soft shadow to lift each card slightly. */
+}
+
+.gallery__thumb {
+  all: unset; /* Remove default button styling so we can design it ourselves. */
+  cursor: pointer; /* Indicate that the entire card is clickable. */
+  display: block; /* Let the button fill the width of the card. */
+  position: relative; /* Needed for the hover animation and overlay caption. */
+  flex: 1; /* Allow the image to stretch and fill the remaining space. */
+}
+
+.gallery__image {
+  display: block; /* Remove stray inline spacing under images. */
+  height: 100%; /* Make sure the thumbnail fills the available height. */
+  width: 100%; /* Cover the full width of the button. */
+  object-fit: cover; /* Crop the image so it always fills the square frame. */
+  transition: transform 240ms ease; /* Smooth zoom animation on hover or focus. */
+}
+
+.gallery__thumb:hover .gallery__image,
+.gallery__thumb:focus-visible .gallery__image {
+  transform: scale(1.05); /* Gentle zoom effect to show the card is interactive. */
+}
+
+.gallery__caption {
+  margin: 0; /* Strip default margins so padding controls the spacing. */
+  padding: 0.85rem 1rem 1.1rem; /* Comfortable space around the caption text. */
+  font-size: 0.95rem; /* Slightly smaller text so the artwork stays the focus. */
+  color: rgba(255, 255, 255, 0.78); /* High-contrast text that still looks soft. */
+  display: flex; /* Place the title on the left and the credit on the right. */
+  justify-content: space-between; /* Push the credit badge to the edge of the card. */
+  align-items: baseline; /* Line up text baselines for a clean look. */
+  gap: 0.75rem; /* Small space between the title and the credit badge. */
+}
+
+.gallery__title {
+  font-weight: 600; /* Slightly bolder title for emphasis. */
+}
+
+.gallery__credit {
+  font-size: 0.75rem; /* Compact all-caps tag that fits neatly on one line. */
+  letter-spacing: 0.08em; /* Extra spacing to make the tag feel like a label. */
+  text-transform: uppercase; /* Consistent label styling regardless of the text. */
+  color: rgba(255, 255, 255, 0.5); /* Muted tone so it doesn’t overpower the title. */
+}
+
+.site-footer {
+  border-top: 1px solid var(--border-soft); /* Mirror the header divider at the bottom of the page. */
+  background: rgba(10, 12, 18, 0.85); /* Use the same translucent background as the header. */
+  padding: 20px; /* Space around the credit line. */
+}
+
+.site-footer__credit {
+  margin: 0; /* Keep the footer compact without extra paragraph spacing. */
+  text-align: center; /* Center the credit text. */
+  font-size: 0.85rem; /* Slightly smaller text so it reads like supporting info. */
+  color: rgba(255, 255, 255, 0.7); /* Calm text color that is still readable. */
+}
+
+.site-footer a {
+  color: var(--accent); /* Match footer links to the accent color used elsewhere. */
+  text-decoration: none; /* Remove default underline for a cleaner look. */
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  text-decoration: underline; /* Restore underline on hover/focus for clarity. */
+}
+
+.lightbox {
+  position: fixed; /* Attach the overlay to the viewport so it covers the page. */
+  inset: 0; /* Stretch the overlay to every edge of the screen. */
+  display: grid; /* Use grid to center the lightbox figure. */
+  place-items: center; /* Align the figure in the middle both vertically and horizontally. */
+  padding: var(--spacing-sm); /* Keep the large image away from the screen edges. */
+  z-index: 40; /* Make sure the lightbox sits above everything else. */
+}
+
+.lightbox[hidden] {
+  display: none; /* Remove the overlay completely when it is closed. */
+}
+
+.lightbox__backdrop {
+  position: absolute; /* Position the backdrop behind the figure. */
+  inset: 0; /* Cover the entire viewport with the backdrop. */
+  background: rgba(5, 7, 10, 0.85); /* Dark tint that shifts focus to the artwork. */
+}
+
+.lightbox__figure {
+  position: relative; /* Keep the caption positioned relative to the figure. */
+  max-width: min(960px, 90vw); /* Limit the width so the image fits on laptop screens. */
+  max-height: 90vh; /* Ensure the image never exceeds the viewport height. */
+  margin: 0; /* Remove default figure margin. */
+  background: rgba(12, 14, 20, 0.95); /* Solid background so the caption is easy to read. */
+  border-radius: 18px; /* Match the rounded corners used in the rest of the UI. */
+  overflow: hidden; /* Keep the rounded corners even when the image is large. */
+  box-shadow: var(--shadow-strong); /* Dramatic shadow so the lightbox stands out. */
+  display: flex; /* Stack the image above the caption. */
+  flex-direction: column; /* Ensure vertical stacking inside the figure. */
+}
+
+.lightbox__image {
+  max-width: 100%; /* Let the image scale down if the viewport is narrow. */
+  max-height: 70vh; /* Leave room for the caption below the image. */
+  object-fit: contain; /* Show the entire HD artwork without cropping. */
+  background: #05060a; /* Dark filler behind images with transparent edges. */
+}
+
+.lightbox__caption {
+  margin: 0; /* Remove figcaption defaults. */
+  padding: 1.2rem 1.5rem 1.4rem; /* Comfortable padding around the description text. */
+  font-size: 1rem; /* Standard body size for the caption. */
+  color: rgba(255, 255, 255, 0.9); /* High-contrast caption text. */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Thin separator between the image and caption. */
+}
+
+@media (max-width: 720px) {
+  .controls__inner,
+  .intro__inner,
+  .gallery__inner,
+  .site-footer__inner {
+    padding: var(--spacing-xs); /* Reduce padding on small screens to save space. */
+  }
+
+  .controls__buttons {
+    flex-direction: column; /* Stack the layout buttons when space is tight. */
+    align-items: flex-start; /* Align stacked buttons to the left edge. */
+  }
+
+  .gallery__grid {
+    gap: var(--spacing-xs); /* Slightly smaller gaps so more art fits on screen. */
+  }
+
+  .gallery__caption {
+    font-size: 0.9rem; /* Scale captions down to match the tighter layout. */
+  }
+}
